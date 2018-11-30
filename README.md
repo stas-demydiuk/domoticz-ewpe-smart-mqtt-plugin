@@ -1,6 +1,8 @@
 # EwpeSmart - Domoticz Python Plugin
 Python plugin for Domoticz to control ewpe-smart powered air conditioners which can be controled via WiFi using [EWPE Smart app](https://play.google.com/store/apps/details?id=com.gree.ewpesmart)
 
+![gree-plugin](https://user-images.githubusercontent.com/2734836/49314936-aeffd700-f4f4-11e8-96a7-11310dac543c.PNG)
+
 ## Prerequisites
 
 Setup [ewpe-smart-mqtt](https://github.com/stas-demydiuk/ewpe-smart-mqtt) bridge
