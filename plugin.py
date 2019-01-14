@@ -1,5 +1,5 @@
 """
-<plugin key="EwpeSmartMqtt" name="EwpeSmart Air Conditioners via MQTT" version="1.0.0">
+<plugin key="EwpeSmartMqtt" name="EwpeSmart Air Conditioners via MQTT" version="1.0.1">
     <description>
       Plugin to control EwpeSmart powered air conditioners via MQTT bridge including:
       <ul>

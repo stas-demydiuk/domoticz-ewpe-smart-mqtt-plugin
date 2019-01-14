@@ -106,57 +106,63 @@ class Device():
 
         self.device = device
 
+    def _update_device(self, device_key, n_value, s_value):
+        device = self.get_device(self.device['mac'], device_key)
+
+        if (s_value == None):
+            s_value = device.sValue
+
+        if (device.nValue != n_value or device.sValue != s_value):
+            device.Update(nValue=n_value, sValue=s_value)
+
     def _update_state(self, state):
         address = self.device['mac']
         Domoticz.Debug(json.dumps(state))
 
         if "Pow" in state:
-            power_device = self.get_device(address, 'switch')
-            mode_device = self.get_device(address, 'mode')
-            fan_device = self.get_device(address, 'fan')
-            blades_device = self.get_device(address, 'blades')
+            n_value = int(state['Pow'])
 
-            power_device.Update(nValue=int(state['Pow']), sValue=str(state['Pow']))
-            mode_device.Update(nValue=power_device.nValue, sValue=mode_device.sValue)
-            fan_device.Update(nValue=power_device.nValue, sValue=fan_device.sValue)
-            blades_device.Update(nValue=power_device.nValue, sValue=blades_device.sValue)
+            self._update_device('switch', n_value, str(n_value))
+            self._update_device('mode', n_value, None)
+            self._update_device('fan', n_value, None)
+            self._update_device('blades', n_value, None)
 
         if "Tur" in state:
-            self.get_device(address, 'turbo').Update(nValue=int(state['Tur']), sValue=str(state['Tur']))
+            self._update_device('turbo', int(state['Tur']), str(state['Tur']))
 
         if "Quiet" in state:
-            self.get_device(address, 'quiet').Update(nValue=int(state['Quiet']), sValue=str(state['Quiet']))
+            self._update_device('quiet', int(state['Quiet']), str(state['Quiet']))
 
         if "Health" in state:
-            self.get_device(address, 'health').Update(nValue=int(state['Health']), sValue=str(state['Health']))
+            self._update_device('health', int(state['Health']), str(state['Health']))
 
         if "SwhSlp" in state:
-            self.get_device(address, 'sleep').Update(nValue=int(state['SwhSlp']), sValue=str(state['SwhSlp']))
+            self._update_device('sleep', int(state['SwhSlp']), str(state['SwhSlp']))
 
         if "Lig" in state:
-            self.get_device(address, 'display').Update(nValue=int(state['Lig']), sValue=str(state['Lig']))
+            self._update_device('display', int(state['Lig']), str(state['Lig']))
 
         if "SvSt" in state:
-            self.get_device(address, 'economy').Update(nValue=int(state['SvSt']), sValue=str(state['SvSt']))
+            self._update_device('economy', int(state['SvSt']), str(state['SvSt']))
 
         if "SetTem" in state and "TemRec" in state:
             temperature = state['SetTem'] + (0.5 if state['TemRec'] == 1 else 0)
-            self.get_device(address, 'temp').Update(nValue=0, sValue=str(temperature))
+            self._update_device('temp', 0, str(temperature))
 
         if "Mod" in state:
             n_value = self.get_device(address, 'switch').nValue
             s_value = str(state["Mod"] * 10)
-            self.get_device(address, 'mode').Update(nValue=n_value, sValue=s_value)
+            self._update_device('mode', n_value, s_value)
 
         if "WdSpd" in state:
             n_value = self.get_device(address, 'switch').nValue
             s_value = str(state["WdSpd"] * 10)
-            self.get_device(address, 'fan').Update(nValue=n_value, sValue=s_value)
+            self._update_device('fan', n_value, s_value)
 
         if "SwUpDn" in state:
             n_value = self.get_device(address, 'switch').nValue
             s_value = str(state["SwUpDn"] * 10)
-            self.get_device(address, 'blades').Update(nValue=n_value, sValue=s_value)
+            self._update_device('blades', n_value, s_value)
 
     def handle_message(self, topic, message):
         if topic == self.topic + '/status':
