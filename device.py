@@ -114,6 +114,8 @@ class Device():
 
         if (device.nValue != n_value or device.sValue != s_value):
             device.Update(nValue=n_value, sValue=s_value)
+        else:
+            device.Touch()
 
     def _update_state(self, state):
         address = self.device['mac']
