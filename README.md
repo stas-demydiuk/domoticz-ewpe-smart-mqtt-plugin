@@ -29,7 +29,7 @@ git pull
 3. Start domoticz
 
 ## Supported devices
-All devices which can be controlled via EWPE Smart app should be supported, including:
+All devices which can be controlled via EWPE Smart or Gree+ app should be supported, including:
 
 - Gree: Smart, U-CROWN series
 - Cooper&Hunter: Supreme, Vip Inverter, ICY II, Arctic, Alpha, Alpha NG, Veritas, Veritas NG series
