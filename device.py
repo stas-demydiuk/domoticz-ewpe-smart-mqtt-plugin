@@ -49,6 +49,11 @@ class Device():
             Domoticz.Debug('Creating domoticz device to handle Health (Cold plasma) mode')
             Domoticz.Device(Unit=self.get_first_available_unit(), DeviceID=device_id, Name=name + ' - Cold Plasma', TypeName="Switch", Image=9).Create()
 
+        if self.get_device(address, 'blow') == None:
+            device_id = address + '_blow'
+            Domoticz.Debug('Creating domoticz device to handle Blow (X-Fan) mode')
+            Domoticz.Device(Unit=self.get_first_available_unit(), DeviceID=device_id, Name=name + ' - Blow (X-Fan)', TypeName="Switch", Image=9).Create()
+
         if self.get_device(address, 'economy') == None:
             device_id = address + '_economy'
             Domoticz.Debug('Creating domoticz device to handle Energy saving mode')
@@ -135,6 +140,9 @@ class Device():
         if "Quiet" in state:
             self._update_device('quiet', int(state['Quiet']), str(state['Quiet']))
 
+        if "Blo" in state:
+            self._update_device('blow', int(state['Blo']), str(state['Blo']))
+
         if "Health" in state:
             self._update_device('health', int(state['Health']), str(state['Health']))
 
@@ -184,6 +192,9 @@ class Device():
 
         if alias == 'quiet' and (cmd == 'ON' or cmd == 'OFF'):
             commands['Quiet'] = 1 if cmd == 'ON' else 0
+
+        if alias == 'blow' and (cmd == 'ON' or cmd == 'OFF'):
+            commands['Blo'] = 1 if cmd == 'ON' else 0
 
         if alias == 'health' and (cmd == 'ON' or cmd == 'OFF'):
             commands['Health'] = 1 if cmd == 'ON' else 0
