@@ -69,6 +69,11 @@ class Device():
             Domoticz.Debug('Creating domoticz device to handle temperature')
             Domoticz.Device(Unit=self.get_first_available_unit(), DeviceID=device_id, Name=name + ' - Temperature', Type=242, Subtype=1).Create()
 
+        if self.get_device(address, 'mtemp') == None: 
+            device_id = address + '_mtemp' 
+            Domoticz.Debug('Creating domoticz device to handle measured temperature') 
+            Domoticz.Device(Unit=self.get_first_available_unit(), DeviceID=device_id, Name=name + ' - Temperature Measured', TypeName="Temperature").Create() 
+
         if self.get_device(address, 'mode') == None:
             device_id = address + '_mode'
             options = {}
@@ -158,6 +163,10 @@ class Device():
         if "SetTem" in state and "TemRec" in state:
             temperature = state['SetTem'] + (0.5 if state['TemRec'] == 1 else 0)
             self._update_device('temp', 0, str(temperature))
+
+        if "TemSen" in state and "TemRec" in state: 
+            temperature = state['TemSen'] + (0.5 if state['TemRec'] == 1 else 0) 
+            self._update_device('mtemp', 0, str(temperature)) 
 
         if "Mod" in state:
             n_value = self.get_device(address, 'switch').nValue
